@@ -24,19 +24,29 @@ class HomePage(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
-        banners = HomePageModel.objects.first().banner.all()
-        banner1 = banners[len(banners)//2:]
-        banner2 = banners[:len(banners)//2]
+        banners = []
+        banner1 = []
+        banner2 = []
         
+        # Check if HomePageModel has any objects
+        homepage = HomePageModel.objects.first()  # Get the first object
+        if homepage:
+            banners = homepage.banner.all()  # Retrieve related banners
+            if banners.exists():
+                # Split banners into two halves
+                banner1 = banners[:len(banners)//2]
+                banner2 = banners[len(banners)//2:]
 
+        # Add data to context
         context.update(
-            events = Event.objects.all(),
-            articles = Article.objects.all(),
-            banner1 = banner1,
-            banner2 = banner2
+            events=Event.objects.all(),
+            articles=Article.objects.all(),
+            banner1=banner1,
+            banner2=banner2
         )
         
         return context
+
 
 class EventsPage(TemplateView):
     template_name = 'pages/events.html'

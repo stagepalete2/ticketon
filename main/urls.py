@@ -31,6 +31,5 @@ urlpatterns = [
 
     
     path('api/get-testimonial/', GetTestimonial.as_view(), name='api_get_testimonial'),
-    
 
 ]

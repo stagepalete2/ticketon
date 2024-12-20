@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 ALLOWED_HOSTS = ['*',]
 
@@ -90,10 +90,10 @@ WSGI_APPLICATION = 'ticketon.wsgi.application'
 DATABASES = {
     "default": {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        "NAME": config('DATABASE_NAME', default='postgres'),
-        "USER": config('DATABASE_USER', default='postgres'),
-        "PASSWORD": config('DATABASE_PASSWORD', default='1245'),
-        "HOST": config('DATABASE_HOST', default='127.0.0.1'),
+        "NAME": config('DATABASE_NAME', default='proj'),
+        "USER": config('DATABASE_USER', default='proj'),
+        "PASSWORD": config('DATABASE_PASSWORD', default='Qqwerty1245!'),
+        "HOST": config('DATABASE_HOST', default='db'),
         "PORT": config('DATABASE_PORT', default='5432', cast=int),
     },
 }

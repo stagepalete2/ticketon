@@ -1,0 +1,37 @@
+services:
+  yernar:
+    build: .
+    ports:
+      - "8000:8000"
+    networks:
+      - postgres-network
+    depends_on:
+      - db
+    env_file:
+      - .env
+    volumes:
+      - proj_data:/yernar
+      - ./media:/app/media
+      - ./staticfiles:/app/staticfiles
+
+  db:
+    image: library/postgres:13-alpine
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+    networks:
+      - postgres-network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: proj
+      POSTGRES_PASSWORD: Qqwerty1245!
+      POSTGRES_DB: proj
+
+networks:
+  postgres-network:
+    driver: bridge
+
+volumes:
+  proj_data:
+  postgres_data:
