@@ -2,6 +2,14 @@
 
 
 {% block meta %}
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
 {% endblock meta %}
 
 {% block css %}
@@ -12,6 +20,21 @@
 {% endblock title %}
 
 {% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <h1 class="text-center">Галереи</h1>
+        {% for gallery in galleries %}
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3">
+            <a href="{% url 'gallery_detail_page' slug=gallery.slug %}" class="text-decoration-none">
+                <div class="gallery w-100 text-center"
+                    style="background: url({{ gallery.gallery_cover.url }}); background-size: cover; background-position: center; aspect-ratio: 1 / 1;">
+                    <p class="btn btn-dark"> {{gallery.gallery_name}} от {{gallery.gallery_author}}</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}
 
 {% block js %}

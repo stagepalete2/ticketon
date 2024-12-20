@@ -1,0 +1,23 @@
+html, body {
+    min-height: 100vh;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+
+.layout-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.content-place {
+    flex-grow: 1; /* Ensures the content fills the space between the header and footer */
+    padding: 20px; /* Optional: Adjust padding for content inside */
+    box-sizing: border-box;
+}
+
+/* Ensure footer stays at the bottom */
+.layout-wrapper > :last-child {
+    margin-top: auto;
+}

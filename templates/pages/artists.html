@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
+{% endblock meta %}
+
+{% block css %}
+{% endblock css %}
+
+{% block title %}
+<title>Артисты | Project</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <form action="" method="GET" class="d-flex flex-row">
+            <input class="form-control" type="text" name="artist_name" id="artist_name" placeholder="Введите прозвище Певца (Например Joji)">
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+    </div>
+    <div class="row">
+        {% if artists %}
+        {% for artist in artists %}
+        <div class="col-sm-6 col-md-3 col-lg-3">
+            <a class="card border-0 btn btn-outline-secondary" href="{% url 'artists_detail_page' slug=artist.slug %}">
+                {% if artist.cover %}
+                <img src="{{ artist.cover.url }}" alt="" class="card-img rounded-circle" width="200px" height="200px"
+                    style="overflow: hidden;">
+                {% endif %}
+                <div class="card-body">
+                    {% if artist.nickname %}
+                    <h5 class="fw-bold text-left m-0">{{ artist.nickname }}</h5>
+                    {% else %}
+                    <h5 class="fw-bold text-left m-0">{{ artist.name }} {{ artist.lastname }}</h5>
+                    {% endif %}
+                    <p class="m-0">Музыкант</p>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+        {% else %}
+        <h1 class="badge bg-secondary">На данный момент нет информации</h1>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

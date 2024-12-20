@@ -1,16 +1,64 @@
 {% extends 'base.html' %}
-
+{% load static %}
 
 {% block meta %}
+<meta name="description" content="{{gallery.meta_description}}">
+<meta name="keywords"
+    content=" {% for keyword in gallery.meta_keywords.all %}{{keyword.name}}{% if not forloop.last %}, {% endif %}{% endfor %} ">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
 {% endblock meta %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'css/gallery.css' %}">
 {% endblock css %}
 
 {% block title %}
+<title>{{gallery.gallery_name}} | Project</title>
 {% endblock title %}
 
 {% block content %}
+<div class="container">
+    <h1> {{gallery.gallery_name}} </h1>
+    <div class="row">
+        {% for item in items %}
+        <div class="col-6 col-sm-6 col-md-3 col-lg-3">
+            <div class="gallery w-100 text-center" data-bs-toggle="modal" data-bs-target="#imageModal{{item.id}}"
+                style="background: url({{ item.gallery_item_image.url }}); background-size: cover; background-position: center; aspect-ratio: 1 / 1;">
+
+            </div>
+        </div>
+        <div class="modal fade" id="imageModal{{item.id}}" tabindex="-1" aria-labelledby="imageModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content bg-white">
+                    <div class="modal-header">
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <img src="{{item.gallery_item_image.url}}" alt="image" class="img-fluid">
+                        <div class="caption mt-3">
+                            <p class="h5">{{item.gallery_item_name}}</p>
+                        </div>
+                        <div class="comment-section mt-4">
+                            {% for comment in item.comments.all %}
+                            <div class="comment text-start">
+                                <strong>{{ comment.author }}</strong> <span class="fw-light">{{comment.testimonial_publish}}<br></span> {{ comment.testimonial_content }}
+                            </div>
+                            <hr>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}
 
 {% block js %}

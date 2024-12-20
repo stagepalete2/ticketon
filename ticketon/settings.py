@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     
+    'rest_framework',
     'ckeditor',
     'taggit',
     
@@ -79,11 +80,22 @@ WSGI_APPLICATION = 'ticketon.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    "default": {
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        "NAME": config('DATABASE_NAME', default='postgres'),
+        "USER": config('DATABASE_USER', default='postgres'),
+        "PASSWORD": config('DATABASE_PASSWORD', default='1245'),
+        "HOST": config('DATABASE_HOST', default='127.0.0.1'),
+        "PORT": config('DATABASE_PORT', default='5432', cast=int),
+    },
 }
 
 
@@ -151,3 +163,8 @@ CKEDITOR_CONFIGS = {
             ]),
         },
 }
+
+
+LOGIN_REDIRECT_URL = 'home_page'
+LOGIN_URL = "signin"
+LOGOUT_REDIRECT_URL = "signin"

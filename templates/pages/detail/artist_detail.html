@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
+{% endblock meta %}
+
+{% block css %}
+{% endblock css %}
+
+{% block title %}
+<title>{{artist.nickname}} | Project</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container-fluid">
+    {% if artist.cover %}
+    <section class="artist_banner position-relative"
+        style="height: 33vh!important; background-image: url(&quot;{{ artist.cover.url }}&quot;); background-position: center; background-repeat: no-repeat; background-size: cover;">
+        <img src="{{ artist.cover.url }}" alt="" class="d-block position-absolute rounded-circle"
+            style="top: 15%!important; left: 15%; width:15vw!important;height: 30vh; overflow:hidden;">
+    </section>
+    {% endif %}
+    <section class="container mt-5">
+        {% if artist.nickname %}
+        <h3 class="">{{artist.nickname}}</h3>
+        <h5 class="fw-light">AKA: {{artist.name}} {{artist.lastname}}</h5>
+        {% else %}
+        <h3 class="">{{artist.name}} {{artist.lastname}}</h3>
+        {% endif %}
+    </section>
+    <hr>
+    <section class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-4 col-lg-4">
+                <section class="">
+                    <h4>Детально</h4>
+                    {{ artist.detail|safe }}
+                </section>
+            </div>
+            <div class="col-sm-12 col-md-8 col-lg-8">
+                <section class="">
+                    <h4>Дискография</h4>
+                    <div class="row">
+                        {% if songs %}
+                        {% for song in songs %}
+                        <a href="{% url 'artists_song_detail_page' slug=song.slug %}" class="text-decoration-none">
+                            <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                                <div class="card border-0 btn btn-outline-secondary">
+                                    <img src="{{ song.cover.url }}" alt="" class="card-img rounded-circle">
+                                    <div class="card-body">
+                                        <h3 class="card-title">{{song.name}}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                        {% endfor %}
+                        {% else %}
+                        <span class="badge bg-secondary fs-2">Нет Информации</span>
+                        {% endif %}
+                    </div>
+                </section>
+                <section class="">
+                    <h4>Альбомы</h4>
+                    <div class="row">
+                        {% if albums %}
+                        {% for album in albums %}
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                            <div class="card border-0 btn btn-outline-secondary">
+                                <img src="{{ album.cover.url }}" alt="" class="card-img">
+                                <div class="card-body">
+                                    <h3 class="card-title">{{album.name}}</h3>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <span class="badge bg-secondary fs-2">Нет Информации</span>
+                        {% endif %}
+                    </div>
+                </section>
+                <section class="">
+                    <h4>Ближайшие концерты</h4>
+                    <div class="row">
+                        {% if events %}
+                        {% for event in events %}
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                            <a class="card border-0 text-decoration-none"
+                                href="{% url 'event_detail_page' slug=event.slug %}">
+                                <div class="card-img w-100">
+                                    <img src="{{ event.event_poster.url }}" alt="" class="img-fluid rounded">
+                                </div>
+                                <div class="card-body mx-0 px-0">
+                                    <div class="card-title fw-bold">{{ event.event_name }}</div>
+                                    <div class="d-flex flex-row align-items-center">
+                                        <i class="fa-regular fa-calendar"></i>
+                                        &nbsp;&nbsp;{{event.event_date}} {{event.event_start_time}}
+                                    </div>
+                                    <div class="d-flex flex-row align-items-center">
+                                        <i class="fa-solid fa-location-dot"></i>
+                                        &nbsp;&nbsp;{{event.event_venue}}
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <span class="badge bg-secondary fs-2">Нет Информации</span>
+                        {% endif %}
+                    </div>
+                </section>
+                <section>
+                    <h4>Галерея</h4>
+                    <div class="row">
+                        {% if galleries %}
+                        {% for gallery in galleries %}
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                            {% include 'blocks/gallery_card.html' %}
+                        </div>
+                        {% endfor %}
+                        {% else %}
+                        <span class="badge bg-secondary fs-2">Нет Информации</span>
+                        {% endif %}
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

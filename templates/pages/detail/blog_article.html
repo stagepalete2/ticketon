@@ -2,15 +2,38 @@
 
 
 {% block meta %}
+<meta name="description" content="{{article.meta_description}}">
+<meta name="keywords" content=" {% for keyword in article.meta_keywords.all %}{{keyword.name}}{% if not forloop.last %}, {% endif %}{% endfor %} ">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
 {% endblock meta %}
 
 {% block css %}
 {% endblock css %}
 
 {% block title %}
+<title> {{article.article_title}} | Project </title>
 {% endblock title %}
 
 {% block content %}
+<div class="container">
+    <section id="titulka">
+        <h1> {{article.article_title}} </h1>
+        <p class="fw-bold m-0"> {{article.article_author}} </h1>
+        <p class="fw-light m-0"> {{article.article_publish}} </p>
+        <div class="d-flex flex-row">
+            <span class="me-2 p-2 badge bg-primary"> {% for tag in article.article_tags.all %} {{tag.name}} {% endfor %}</span>
+        </div>
+    </section>
+    <hr>
+    <section id="body">
+        {{article.article_content|safe}}
+    </section>
+</div>
 {% endblock content %}
 
 {% block js %}

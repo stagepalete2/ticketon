@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 
 
 {% block meta %}
@@ -11,10 +12,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="canonical" href="https://petproject.kz">
 <meta name="application-name" content="petproject.kz">
-<meta name="author" content="Yernar and Yedige">
+<meta name="author" content="Gulzada and Yedige">
 {% endblock meta %}
 
 {% block css %}
+<link rel="stylesheet" href="{% static 'css/home.css' %}">
 {% endblock css %}
 
 {% block title %}
@@ -22,7 +24,194 @@
 {% endblock title %}
 
 {% block content %}
+<div class="container">
+    <section id="afisha">
+        <h1 class="text-center">Афиша событий Астана</h1>
+        <div class="container calendar">
+            <div class="calendar-header">
+                <button class="btn btn-outline-secondary btn-sm">&lt;</button>
+                <h5 class="mb-0">Декабрь 2024 — Январь 2025</h5>
+                <button class="btn btn-outline-secondary btn-sm">&gt;</button>
+            </div>
+            <div class="row row-cols-7 text-center" id="calendar-week">
+            </div>
+            <div class="row row-cols-7 text-center" id="calendar-days">
+            </div>
+        </div>
+    </section>
+    <hr>
+
+    <section id="main_banner">
+        <div id="concertCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for banner in banner1 %}
+                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                    <img src="{{ banner.banner_image.url }}" alt="Concert Image 1">
+                    <div class="black-overlay">
+                        <h4 class="mb-3">{{banner.banner_text}}</h4>
+                        <a href="{{banner.banner_button_link}}" class="btn btn-orange">{{banner.banner_button_text}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#concertCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#concertCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="popular">
+        <h1 class="text-center">Популярное</h1>
+        <div class="row">
+            {% for event in events %}
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                <a class="text-dark text-decoration-none" href="{% url 'event_detail_page' slug=event.slug %}">
+                    <div class="card concert-card">
+                        <img src="{{ event.event_poster.url }}" alt="{{event.event_name}} poster">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.event_name }}</h5>
+                            <p class="details">
+                                <i class="bi bi-calendar"></i> {{event.event_date}}
+                            </p>
+                            <p class="details">
+                                <i class="bi bi-geo-alt"></i> {{event.event_venue}}
+                            </p>
+                            <p class="price">от 40000 Тенге</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="interesting">
+        <div id="concertCarousel2" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                {% for banner in banner2 %}
+                <div class="carousel-item {% if forloop.first %} active {% endif %}">
+                    <img src="{{ banner.banner_image.url }}" alt="Concert Image 1">
+                    <div class="black-overlay">
+                        <h4 class="mb-3">{{banner.banner_text}}</h4>
+                        <a href="{{banner.banner_button_link}}" class="btn btn-orange">{{banner.banner_button_text}}</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#concertCarousel2" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#concertCarousel2" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="concert">
+        <h1 class="text-center">Концерты</h1>
+        <div class="row">
+            {% for event in events %}
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                <a class="text-dark text-decoration-none" href="{% url 'event_detail_page' slug=event.slug %}">
+                    <div class="card concert-card">
+                        <img src="{{ event.event_poster.url }}" alt="{{event.event_name}} poster">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.event_name }}</h5>
+                            <p class="details">
+                                <i class="bi bi-calendar"></i> {{event.event_date}}
+                            </p>
+                            <p class="details">
+                                <i class="bi bi-geo-alt"></i> {{event.event_venue}}
+                            </p>
+                            <p class="price">от 40000 Тенге</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+
+    <hr>
+
+    <section id="articles">
+        <h1 class="text-center">Интересные статьи</h1>
+        <div class="row">
+            {% for article in articles %}
+            <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
+                <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                    <img src="{{article.article_cover.url}}" width="600px" height="400px" alt=""
+                        class="img-fluid rounded">
+                    <h1 class="h5 m-0 p-0"> {{article.article_title}} </h1>
+                    <p class="fw-light">Автор {{article.article_author}} {{article.article_publish}}</p>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+
+</div>
 {% endblock content %}
 
 {% block js %}
+<script>
+    $(window).on("load", function () {
+        const calendar_week = $('#calendar-week');
+        const calendar_days = $('#calendar-days');
+    
+        const json_weeks = {
+            1: 'ПН', // Monday
+            2: 'ВТ', // Tuesday
+            3: 'СР', // Wednesday
+            4: 'ЧТ', // Thursday
+            5: 'ПТ', // Friday
+            6: 'СБ', // Saturday
+            7: 'ВС'  // Sunday
+        };
+    
+        const today = new Date();
+        const currentDay = today.getDate();
+        const currentMonth = today.getMonth() + 1; // Month (1-12)
+        const currentYear = today.getFullYear();
+        const todayIndex = today.getDay() === 0 ? 7 : today.getDay(); // Convert Sunday (0) to 7
+    
+        // Build the week (Monday to Sunday)
+        let weekHTML = '';
+        for (let i = 1; i < 8; i++) {
+            const dayIndex = ((todayIndex - 4 + i) + 7) % 7 || 7; // Adjust for weekdays (1-7)
+            weekHTML += `<div class="col"><span class="calendar-date">${json_weeks[dayIndex]}</span></div>`;
+        }
+    
+        // Append the generated week to #calendar-week
+        calendar_week.html(weekHTML);
+    
+        // Build the calendar days (current week)
+        let daysHTML = '';
+        for (let i = -3; i <= 3; i++) {
+            const newDate = new Date(today);
+            newDate.setDate(today.getDate() + i); // Calculate the date for each day in the week
+            const day = newDate.getDate();
+            const isToday = i === 0 ? 'selected' : ''; // Highlight today
+            daysHTML += `<div class="col"><a href="/events/#${day}" class="text-dark text-decoration-none"><span class="calendar-date ${isToday}">${day}</span></a></div>`;
+        }
+    
+        // Append the generated days to #calendar-days
+        calendar_days.html(daysHTML);
+    });
+</script>
 {% endblock js %}
+
+</a>

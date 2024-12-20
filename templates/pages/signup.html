@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+
+
+{% block meta %}
+<meta name="description" content="{{gallery.meta_description}}">
+<meta name="keywords"
+    content=" {% for keyword in gallery.meta_keywords.all %}{{keyword.name}}{% if not forloop.last %}, {% endif %}{% endfor %} ">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
+{% endblock meta %}
+
+{% block css %}
+{% endblock css %}
+
+{% block title %}
+<title> | Project</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <form action="{% url 'signup' %}" method="POST" class="col-md-6">
+            <h1> Регистрация </h1>
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="id_username">Имя пользователя:</label>
+                <input class="form-control" type="text" name="username" maxlength="150" autofocus="" required=""
+                    aria-describedby="id_username_helptext" id="id_username">
+
+                <span class="helptext" id="id_username_helptext">Обязательное поле. Не более 150 символов. Только буквы,
+                    цифры и символы @/./+/-/_.</span>
+            </div>
+
+            <div class="form-group">
+                <label for="id_email">Адрес электронной почты:</label>
+                <input class="form-control" type="email" name="email" maxlength="254" id="id_email">
+            </div>
+            <div class="form-group">
+                <label for="id_password1">Пароль:</label>
+                <input class="form-control" type="password" name="password1" autocomplete="new-password"
+                    aria-describedby="id_password1_helptext" id="id_password1">
+
+                <span class="helptext" id="id_password1_helptext"></span>
+            </div>
+            <ul>
+                <li>Пароль не должен быть слишком похож на другую вашу личную информацию.</li>
+                <li>Ваш пароль должен содержать как минимум 8 символов.</li>
+                <li>Пароль не должен быть слишком простым и распространенным.</li>
+                <li>Пароль не может состоять только из цифр.</li>
+            </ul>
+            <div class="form-group">
+                <label for="id_password2">Подтверждение пароля:</label>
+                <input class="form-control" type="password" name="password2" autocomplete="new-password"
+                    aria-describedby="id_password2_helptext" id="id_password2">
+
+                <span class="helptext" id="id_password2_helptext">Для подтверждения введите, пожалуйста, пароль ещё
+                    раз.</span>
+            </div>
+            <div class="form-group mt-3">
+                <button type="submit" class="btn btn-primary">Регистрация</button>
+            </div>
+            {% if SignUpForm.errors %}
+            <ul class="list-group list-group-flush">
+                {% for error in SignUpForm.errors %}
+                <li class="list-group-item"><span class="fw-bold">{{error}}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </form>
+        <div class="col-md-3"></div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

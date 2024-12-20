@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="{{gallery.meta_description}}">
+<meta name="keywords"
+    content=" {% for keyword in gallery.meta_keywords.all %}{{keyword.name}}{% if not forloop.last %}, {% endif %}{% endfor %} ">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
+{% endblock meta %}
+
+{% block css %}
+{% endblock css %}
+
+{% block title %}
+<title> FAQs| Project</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>О нас</h1>
+    {{about.about_us|safe}}
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

@@ -2,6 +2,14 @@
 
 
 {% block meta %}
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
 {% endblock meta %}
 
 {% block css %}
@@ -12,6 +20,31 @@
 {% endblock title %}
 
 {% block content %}
+<div class="container">
+    <h1 class="text-center">Блог сообщества Project</h1>
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+            <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
+                <img src="{{article.article_cover.url}}" width="600px" height="400px" alt="" class="img-fluid rounded">
+                <h1 class="h5 m-0 p-0"> {{article.article_title}} </h1>
+                <p class="fw-light">Автор {{article.article_author}} {{article.article_publish}}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        {% for article in articles %}
+        <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+            <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
+                <img src="{{article.article_cover.url}}" width="600px" height="400px" alt="" class="img-fluid rounded">
+                <h1 class="h5 m-0 p-0"> {{article.article_title}} </h1>
+                <p class="fw-light">Автор {{article.article_author}} {{article.article_publish}}</p>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}
 
 {% block js %}

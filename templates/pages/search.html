@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block meta %}
+<meta name="description" content="">
+<meta name="keywords" content="">
+
+<meta name="robots" content="noindex, nofollow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="canonical" href="https://petproject.kz">
+<meta name="application-name" content="gulzada.petproject.kz">
+<meta name="author" content="Gulzada and Yedige">
+{% endblock meta %}
+
+{% block css %}
+{% endblock css %}
+
+{% block title %}
+<title>{{song.name}} | Project</title>
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <section id="events">
+        <h1>Результаты поиска в ближайших ивентах</h1>
+        <div class="row">
+            {% for event in events %}
+            <div class="col-6 col-sm-6 col-md-4 col-lg-3">
+                <a class="text-dark text-decoration-none" href="{% url 'event_detail_page' slug=event.slug %}">
+                    <div class="card concert-card">
+                        <img src="{{ event.event_poster.url }}" alt="{{event.event_name}} poster">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ event.event_name }}</h5>
+                            <p class="details">
+                                <i class="bi bi-calendar"></i> {{event.event_date}}
+                            </p>
+                            <p class="details">
+                                <i class="bi bi-geo-alt"></i> {{event.event_venue}}
+                            </p>
+                            <p class="price">от {{event.start_price}} Тенге</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="artists">
+        <h1>Результаты поиска среди певцов</h1>
+        <div class="row">
+            {% for artist in artists %}
+            <div class="col-sm-6 col-md-3 col-lg-3">
+                <a class="card border-0 btn btn-outline-secondary"
+                    href="{% url 'artists_detail_page' slug=artist.slug %}">
+                    {% if artist.cover %}
+                    <img src="{{ artist.cover.url }}" alt="" class="card-img rounded-circle" width="200px"
+                        height="200px" style="overflow: hidden;">
+                    {% endif %}
+                    <div class="card-body">
+                        {% if artist.nickname %}
+                        <h5 class="fw-bold text-left m-0">{{ artist.nickname }}</h5>
+                        {% else %}
+                        <h5 class="fw-bold text-left m-0">{{ artist.name }} {{ artist.lastname }}</h5>
+                        {% endif %}
+                        <p class="m-0">Музыкант</p>
+                    </div>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="songs">
+        <h1>Результаты поиска среди песен</h1>
+        <div class="row">
+            {% for song in songs %}
+            <a href="{% url 'artists_song_detail_page' slug=song.slug %}" class="text-decoration-none">
+                <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                    <div class="card border-0 btn btn-outline-secondary">
+                        <img src="{{ song.cover.url }}" alt="" class="card-img rounded-circle">
+                        <div class="card-body">
+                            <h3 class="card-title">{{song.name}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="blog">
+        <h1>Результаты поиска внутри блога</h1>
+        <div class="row">
+            {% for article in articles %}
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
+                    <img src="{{article.article_cover.url}}" width="600px" height="400px" alt="" class="img-fluid rounded">
+                    <h1 class="h5 m-0 p-0"> {{article.article_title}} </h1>
+                    <p class="fw-light">Автор {{article.article_author}} {{article.article_publish}}</p>
+                </a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+</div>
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}
