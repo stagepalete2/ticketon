@@ -2,7 +2,7 @@ services:
   yernar:
     build: .
     ports:
-      - "8000:8000"
+      - "9000:9000"
     networks:
       - postgres-network
     depends_on:
@@ -17,7 +17,7 @@ services:
   db:
     image: library/postgres:13-alpine
     ports:
-      - 5432:5432
+      - 5433:5433
     restart: unless-stopped
     networks:
       - postgres-network

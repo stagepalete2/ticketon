@@ -34,6 +34,8 @@ class Event(models.Model):
     artists = models.ManyToManyField(to='main.Artist', blank=True)
     event_type = models.ForeignKey(to='main.EventType', on_delete=models.CASCADE, verbose_name='Тип ивента')
     
+    publish = models.BooleanField(verbose_name='Опубликовать', default=True)
+    
     slug = models.SlugField(unique=True, verbose_name='Ссылка', help_text='Автоматический генерируется')
 
     def save(self, *args, **kwargs):

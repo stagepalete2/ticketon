@@ -43,6 +43,8 @@
                 <section class="">
                     <h4>Детально</h4>
                     {{ artist.detail|safe }}
+                    <h4>Биография</h4>
+                    {{artist.biographyh|safe}}
                 </section>
             </div>
             <div class="col-sm-12 col-md-8 col-lg-8">
@@ -51,16 +53,16 @@
                     <div class="row">
                         {% if songs %}
                         {% for song in songs %}
-                        <a href="{% url 'artists_song_detail_page' slug=song.slug %}" class="text-decoration-none">
-                            <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                        <div class="col-6 col-sm-6 col-md-4 col-lg-4 position-relative p-2">
+                            <a href="{% url 'artists_song_detail_page' slug=song.slug %}" class="text-decoration-none">
                                 <div class="card border-0 btn btn-outline-secondary">
                                     <img src="{{ song.cover.url }}" alt="" class="card-img rounded-circle">
                                     <div class="card-body">
                                         <h3 class="card-title">{{song.name}}</h3>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
+                        </div>
                         {% endfor %}
                         {% else %}
                         <span class="badge bg-secondary fs-2">Нет Информации</span>

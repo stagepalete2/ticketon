@@ -18,8 +18,8 @@ RUN pip install --no-cache-dir -r requirements.txt gunicorn
 
 COPY . .
 
-EXPOSE 8000
+EXPOSE 9000
 
 
-CMD ["bash", "-c", "gunicorn -b 0.0.0.0:8000 ticketon.wsgi:application"]
+CMD ["bash", "-c", "gunicorn -b 0.0.0.0:9000 ticketon.wsgi:application"]
 

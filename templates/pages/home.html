@@ -26,7 +26,7 @@
 {% block content %}
 <div class="container">
     <section id="afisha">
-        <h1 class="text-center">Афиша событий Астана</h1>
+        <h1 class="text-center">Афиша событий Алматы</h1>
         <div class="container calendar">
             <div class="calendar-header">
                 <button class="btn btn-outline-secondary btn-sm">&lt;</button>
@@ -83,7 +83,9 @@
                             <p class="details">
                                 <i class="bi bi-geo-alt"></i> {{event.event_venue}}
                             </p>
-                            <p class="price">от 40000 Тенге</p>
+                            {% if event.start_price %}
+                            <p class="price">от {{event.start_price}}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </a>
@@ -136,7 +138,9 @@
                             <p class="details">
                                 <i class="bi bi-geo-alt"></i> {{event.event_venue}}
                             </p>
-                            <p class="price">от 40000 Тенге</p>
+                            {% if event.start_price %}
+                            <p class="price">от {{event.start_price}}</p>
+                            {% endif %}
                         </div>
                     </div>
                 </a>
@@ -151,14 +155,14 @@
         <h1 class="text-center">Интересные статьи</h1>
         <div class="row">
             {% for article in articles %}
-            <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
-                <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+            <div class="col-12 col-sm-12 col-md-3 col-lg-3">
+                <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
                     <img src="{{article.article_cover.url}}" width="600px" height="400px" alt=""
                         class="img-fluid rounded">
                     <h1 class="h5 m-0 p-0"> {{article.article_title}} </h1>
                     <p class="fw-light">Автор {{article.article_author}} {{article.article_publish}}</p>
-                </div>
-            </a>
+                </a>
+            </div>
             {% endfor %}
         </div>
     </section>
@@ -171,7 +175,7 @@
     $(window).on("load", function () {
         const calendar_week = $('#calendar-week');
         const calendar_days = $('#calendar-days');
-    
+
         const json_weeks = {
             1: 'ПН', // Monday
             2: 'ВТ', // Tuesday
@@ -181,23 +185,23 @@
             6: 'СБ', // Saturday
             7: 'ВС'  // Sunday
         };
-    
+
         const today = new Date();
         const currentDay = today.getDate();
         const currentMonth = today.getMonth() + 1; // Month (1-12)
         const currentYear = today.getFullYear();
         const todayIndex = today.getDay() === 0 ? 7 : today.getDay(); // Convert Sunday (0) to 7
-    
+
         // Build the week (Monday to Sunday)
         let weekHTML = '';
         for (let i = 1; i < 8; i++) {
             const dayIndex = ((todayIndex - 4 + i) + 7) % 7 || 7; // Adjust for weekdays (1-7)
             weekHTML += `<div class="col"><span class="calendar-date">${json_weeks[dayIndex]}</span></div>`;
         }
-    
+
         // Append the generated week to #calendar-week
         calendar_week.html(weekHTML);
-    
+
         // Build the calendar days (current week)
         let daysHTML = '';
         for (let i = -3; i <= 3; i++) {
@@ -207,7 +211,7 @@
             const isToday = i === 0 ? 'selected' : ''; // Highlight today
             daysHTML += `<div class="col"><a href="/events/#${day}" class="text-dark text-decoration-none"><span class="calendar-date ${isToday}">${day}</span></a></div>`;
         }
-    
+
         // Append the generated days to #calendar-days
         calendar_days.html(daysHTML);
     });

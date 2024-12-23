@@ -24,9 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['*',]
+ALLOWED_HOSTS = ['gulzada.petproject.kz', 'www.gulzada.petproject.kz', 'localhost', '127.0.0.1']
+CSRF_TRUSTED_ORIGINS = ['https://gulzada.petproject.kz', 'https://www.gulzada.petproject.kz']
+
+CORS_ORIGIN_ALLOW_ALL = False
 
 
 # Application definition

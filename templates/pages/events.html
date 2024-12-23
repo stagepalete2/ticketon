@@ -23,7 +23,7 @@
 <div class="container">
     <h1 class="text-center">Все события</h1>
     {% for day in days %}
-    <h2 class="text-center mt-3"  id="{{day.day}}">{{day}}</h2>
+    <h2 class="text-center mt-3" id="{{day.day}}">{{day}}</h2>
     <div class="row mt-3">
         {% for event in events %}
         {% if day == event.event_date %}
@@ -39,7 +39,9 @@
                         <p class="details">
                             <i class="bi bi-geo-alt"></i> {{event.event_venue}}
                         </p>
-                        <p class="price">от {{event.start_price}} Тенге</p>
+                        {% if event.start_price %}
+                        <p class="price">от {{event.start_price}}</p>
+                        {% endif %}
                     </div>
                 </div>
             </a>

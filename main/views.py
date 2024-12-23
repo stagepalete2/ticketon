@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, DetailView, CreateView
 from django.db.models.functions import Trunc
+from datetime import timedelta
 from django.utils.timezone import now
 from django.db.models import Q
 from django.urls import reverse, reverse_lazy
@@ -37,9 +38,18 @@ class HomePage(TemplateView):
                 banner1 = banners[:len(banners)//2]
                 banner2 = banners[len(banners)//2:]
 
+        events = Event.objects.all()
+        days = [event.event_date for event in events.distinct('event_date')]
+        tickets = Ticket.objects.all()
+        events = events.annotate(key=Trunc('event_date', 'days')).order_by('key').filter(publish=True, event_date__gte=(now() - timedelta(days=3)))
+        
+        for event in events:
+            start_price = tickets.filter(event=event).order_by('ticket_price').first()
+            event.start_price = start_price.ticket_price if start_price else 0
+        
         # Add data to context
         context.update(
-            events=Event.objects.all(),
+            events=events,
             articles=Article.objects.all(),
             banner1=banner1,
             banner2=banner2
@@ -55,10 +65,10 @@ class EventsPage(TemplateView):
         context = super().get_context_data(**kwargs)
 
         
-        events = Event.objects.all()
+        events = Event.objects.all().filter(publish=True)
         days = [event.event_date for event in events.distinct('event_date')]
         tickets = Ticket.objects.all()
-        events = events.annotate(key=Trunc('event_date', 'days')).order_by('key').filter(event_date__gte=now())
+        events = events.annotate(key=Trunc('event_date', 'days')).order_by('key').filter(event_date__gte=(now() - timedelta(days=3)))
         
         for event in events:
             start_price = tickets.filter(event=event).order_by('ticket_price').first()
@@ -77,11 +87,12 @@ class EventDetailPage(DetailView):
     model = Event
     context_object_name = 'event'
     
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         testimonials = EventTestimonial.objects.filter(event=self.object).order_by('-testimonial_publish')
-        
+        user_order = None
         if self.request.user and self.request.user.is_authenticated:
             user_order = UserOrder.objects.filter(user=self.request.user ,ticket__event=self.object)
         
@@ -116,8 +127,11 @@ class BlogPage(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         
+        articles = Article.objects.all() 
+        
         context.update(
-            articles = Article.objects.all(),
+            article_preview = articles[0:2],
+            articles = articles,
         )
         
         return context
@@ -260,7 +274,7 @@ class ArtistDetailPage(DetailView):
         context.update(
             songs = Song.objects.filter(artist=self.object.id).distinct(),
             albums = Album.objects.filter(artist=self.object.id).distinct(),
-            events = Event.objects.filter(artists=self.object.id).distinct(),
+            events = Event.objects.filter(publish=True ,artists=self.object.id).distinct(),
         )
         
         return context
@@ -299,7 +313,7 @@ class SearchPage(TemplateView):
             events = Event.objects.filter(
                 Q(event_name__icontains=q) |
                 Q(artists__nickname__icontains=q)
-            ).order_by('-event_date').distinct()
+            ).filter(publish=True).order_by('-event_date').distinct()
             
             # Search artists (allow partial match on name or nickname)
             artists = Artist.objects.filter(

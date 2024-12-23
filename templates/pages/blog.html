@@ -23,7 +23,7 @@
 <div class="container">
     <h1 class="text-center">Блог сообщества Project</h1>
     <div class="row">
-        {% for article in articles %}
+        {% for article in article_preview %}
         <div class="col-12 col-sm-12 col-md-6 col-lg-6">
             <a href="{% url 'blog_article_detail_page' slug=article.slug %}" class="text-dark text-decoration-none">
                 <img src="{{article.article_cover.url}}" width="600px" height="400px" alt="" class="img-fluid rounded">
